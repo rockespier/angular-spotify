@@ -13,21 +13,29 @@ import { Subscription } from 'rxjs';
 export class TracksPageComponent implements OnInit, OnDestroy {
   tracksTrending: Array<TracksModel> = [];
   tracksRandom: Array<TracksModel> = [];
-
   listObservables$: Array<Subscription> = [];
 
   constructor(private trackService: TrackService) { }
 
   ngOnInit(): void {            
-     this.trackService.getAllTracks$().subscribe((response: TracksModel[]) => {
-       //console.log(response);
-       this.tracksTrending = response
-     })
-      this.trackService.getAllRandom$().subscribe((response: TracksModel[]) => {
-        this.tracksRandom = response
-      })
+    this.loadData();
+    this.loadDataRamdom();
   }
   
+  async loadData(): Promise<void> {
+     this.tracksTrending = await this.trackService.getAllTracks$().toPromise();
+     
+  }
+
+  loadDataRamdom(): void {
+    const subRandom = this.trackService.getAllRandom$()
+      .subscribe((response: TracksModel[]) => {
+        this.tracksRandom = response;
+      }, error => {
+        console.log('Error loading random tracks', error);
+      })
+    }
+
   ngOnDestroy(): void {
     
   }

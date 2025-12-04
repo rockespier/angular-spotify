@@ -32,14 +32,15 @@ export class TrackService {
   }
  
    getAllRandom$(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/tracks`)
+    return this.http.get(`${this.apiUrl}/tracks001`)
       .pipe(
         mergeMap(({ data }: any) => this.skipById(data, 2)),
         // map((dataRevertida) => { //TODO aplicar un filter comun de array
         //   return dataRevertida.filter((track: TrackModel) => track._id !== 1)
         // })
+        tap(data => console.log('Random tracks fetched:', data)),
         catchError((err) => {
-          const { status, statusText } = err;
+         console.log('Error fetching random tracks', err);
           return of([])
         })
       )
