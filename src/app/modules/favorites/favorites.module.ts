@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { FavoritesRoutingModule } from './favorites-routing.module';
 import { FavoritesPageComponent } from './pages/favorites-page/favorites-page.component';
-import { share } from 'rxjs';
 import { SharedModule } from '@shared/shared.module';
 
 
